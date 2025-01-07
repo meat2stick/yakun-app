@@ -2,17 +2,33 @@ import React, {useEffect} from "react";
 import {useMenuContext} from "../context/MenuContext.tsx";
 import SideMenu from "./SideMenu.tsx";
 import Section from "./Section.tsx";
-import dataJson from "../assets/menuResponse.json";
 import ItemModal from "./ItemModal.tsx";
+import {useQuery} from "@apollo/client";
+import {GET_MENU_BY_ID} from '../graphql/queries.ts';
+import {GetMenuByIdResponse} from "../types/GetMenuTypes.tsx";
 
 const Menu: React.FC = () => {
     const menuContext = useMenuContext();
+    const {data, loading, error} = useQuery<GetMenuByIdResponse>(GET_MENU_BY_ID, {
+        variables: {id: 1} // Assuming we only will only render one menu based on the requirements.
+    });
 
     useEffect(() => {
-        // TODO: Resolve the type after adding GraphQL call
-        // @ts-ignore
-        menuContext.setMenuContextData(dataJson);
-    }, [])
+        if (data) {
+            menuContext.setMenu(data.menu);
+        }
+    }, [data])
+
+    // Handle loading state
+    if (loading) {
+        return <p>Loading...</p>;
+    }
+
+    // Handle error state
+    if (error) {
+        console.error(error);
+        return <p>Error: {error.message}</p>;
+    }
 
     const renderMenu = () => {
         return (
@@ -34,7 +50,7 @@ const Menu: React.FC = () => {
     return (
         <>
             {
-                menuContext?.menuContextData ? renderMenu() : 'Loading'
+                menuContext.menu ? renderMenu() : 'Loading'
             }
             <ItemModal/>
         </>
