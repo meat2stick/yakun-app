@@ -1,15 +1,16 @@
 // MenuContext.tsx
 import React, {createContext, useContext, useState} from "react";
-import {MenuRootData} from "../types/GetMenuTypes.tsx";
+import {MenuType} from "../types/GetMenuTypes.tsx";
 
 export interface MenuContext {
-    menuContextData: MenuRootData | null;
-    setMenuContextData(menuContetData:MenuRootData | null): void;
+    menu: MenuType | null;
+    setMenu(menu: MenuType | null): void;
 }
 
 const MenuContext = createContext<MenuContext | undefined>({
-    menuContextData: null,
-    setMenuContextData: () => {}
+    menu: null,
+    setMenu: () => {
+    }
 });
 
 
@@ -18,10 +19,10 @@ export interface MenuContextProviderProps {
 }
 
 export const MenuContextProvider: React.FC<MenuContextProviderProps> = ({children}) => {
-    const [menuContextData, setMenuContextData] = useState<MenuRootData | null>(null);
+    const [menu, setMenu] = useState<MenuType | null>(null);
 
     return (
-        <MenuContext.Provider value={{menuContextData, setMenuContextData}}>
+        <MenuContext.Provider value={{menu, setMenu}}>
             {children}
         </MenuContext.Provider>
     )
