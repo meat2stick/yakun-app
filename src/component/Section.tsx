@@ -1,51 +1,55 @@
 import Item, {ItemProps} from "./Item.tsx";
 import React from "react";
 import {MenuContext, useMenuContext} from "../context/MenuContext.tsx";
-import {SectionType} from "../types/GetMenuTypes.tsx";
+import {ItemType, SectionType} from "../types/GetMenuTypes.tsx";
 import {Typography} from "antd";
+import {cloneDeep} from "@apollo/client/utilities";
 
 const {Title} = Typography;
+
+const sortObjectsBasedOnDisplayOrder = (obj: ItemType[] | SectionType []) => {
+    // displayOrder is converted to positive as negative number represents disabled sections
+    obj.sort((a, b) => {
+        // Default to the largest int if missing
+        const orderA = Math.abs(a.displayOrder) ?? Number.MAX_SAFE_INTEGER;
+        const orderB = Math.abs(b.displayOrder) ?? Number.MAX_SAFE_INTEGER;
+        return orderA - orderB;
+    });
+}
 
 const Section = () => {
     const menuContext = useMenuContext();
 
     const renderSection = (menuContext: MenuContext) => {
-        const sections: React.ReactNode[] = [];
-        menuContext?.menuContextData?.data.menus.forEach(menu => {
+        const sections = cloneDeep(menuContext.menu?.sections);
+        const sectionsToRender: React.ReactNode[] = [];
 
-            // Sections should be displayed in order
-            menu.sections.sort((a, b) => {
-                // Default to the largest int if missing
-                const orderA = a.displayOrder ?? Number.MAX_SAFE_INTEGER;
-                const orderB = b.displayOrder ?? Number.MAX_SAFE_INTEGER;
-                return orderA - orderB;
-            });
+        if (!sections || sections.length === 0) {
+            return sectionsToRender;
+        }
 
-            menu.sections.forEach(section => {
-                sections.push(
-                    <div key={section.identifier}>
-                        <Title id={section.identifier} level={2} className="font-black justify-center pt-2">{section.label}</Title>
-                        <Title level={5}>{section.description}</Title>
-                        {renderItems(section)}
-                    </div>
-                )
-            })
+        sortObjectsBasedOnDisplayOrder(sections);
+
+        sections.forEach(section => {
+            sectionsToRender.push(
+                <div key={section.identifier}>
+                    <Title id={section.identifier} level={2}
+                           className="font-black justify-center pt-2">{section.label}</Title>
+                    <Title level={5}>{section.description}</Title>
+                    {renderItems(section.items)}
+                </div>
+            )
         })
-        return sections;
+
+        return sectionsToRender;
     }
 
-    const renderItems = (section: SectionType) => {
+    const renderItems = (items: ItemType[]) => {
         const cards: React.ReactNode[] = [];
 
-        // Items should be displayed in order
-        section.items.sort((a, b) => {
-            // Default to the largest int if missing
-            const orderA = a.displayOrder ?? Number.MAX_SAFE_INTEGER;
-            const orderB = b.displayOrder ?? Number.MAX_SAFE_INTEGER;
-            return orderA - orderB;
-        });
+        sortObjectsBasedOnDisplayOrder(items);
 
-        section.items.forEach(item => {
+        items.forEach(item => {
             const itemProps: ItemProps = {
                 label: item.label,
                 description: item.description,
