@@ -15,13 +15,13 @@ const SideMenu: React.FC = () => {
     }
 
     return (
-        menuContext?.menuContextData?.data.menus &&
+        menuContext?.menu &&
         <Menu
             defaultSelectedKeys={['1']}
             defaultOpenKeys={['sub1']}
             mode="inline"
             theme="light"
-            items={generateSections(menuContext.menuContextData?.data.menus[0]?.sections)}
+            items={generateSections(menuContext.menu?.sections)}
             style={{ width: 256 }}
         />
     )
