@@ -1,4 +1,3 @@
-// MenuContext.tsx
 import React, {createContext, useContext, useState} from "react";
 import {MenuType} from "../types/GetMenuTypes.tsx";
 
