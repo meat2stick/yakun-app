@@ -1,27 +1,24 @@
 import {Modal, Typography, Button} from "antd";
-import React, {useEffect, useState} from "react";
-import {ItemModalProps, useItemModalContext} from "../context/ItemModalContext.tsx";
+import React, {useState} from "react";
+import {useItemModalContext} from "../context/ItemModalContext.tsx";
 import ItemCounter from "./ItemCounter.tsx";
 
 const {Title} = Typography;
 
 const ItemModal: React.FC = () => {
     const itemModalContext = useItemModalContext();
-    const [item, setItem] = useState<ItemModalProps | null>(null);
+    const item = itemModalContext.item;
+    const isVisible = itemModalContext.isVisible;
+    const isDisabled = item?.isDisabled
     const [itemCount, setItemCount] = useState(0);
 
     const handleCancel = () => {
         itemModalContext.closeModal();
         setItemCount(0);
-        setItem(null);
     }
 
-    useEffect(() => {
-        setItem(itemModalContext.item);
-    }, [itemModalContext.item]);
-
     const opacitySetting = (): string => {
-        if (itemModalContext.item?.isDisabled) {
+        if (isDisabled) {
             return "opacity-50";
         }
         return "opacity-100"
@@ -83,7 +80,7 @@ const ItemModal: React.FC = () => {
                 onCancel={handleCancel}
                 footer={null}
                 width={768}
-                open={itemModalContext.isVisible}
+                open={isVisible}
                 style={{padding: 20}}>
                 {item && renderItemDetails()}
             </Modal>
