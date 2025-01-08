@@ -1,6 +1,6 @@
 import Item, {ItemProps} from "./Item.tsx";
 import React from "react";
-import {MenuContext, useMenuContext} from "../context/MenuContext.tsx";
+import {useMenuContext} from "../context/MenuContext.tsx";
 import {ItemType, SectionType} from "../types/GetMenuTypes.tsx";
 import {Typography} from "antd";
 import {cloneDeep} from "@apollo/client/utilities";
@@ -17,26 +17,28 @@ const sortObjectsBasedOnDisplayOrder = (obj: ItemType[] | SectionType []) => {
     });
 }
 
-const Section = () => {
-    const menuContext = useMenuContext();
+const SectionItem = () => {
+    const sections = cloneDeep(useMenuContext().menu?.sections)
 
-    const renderSection = (menuContext: MenuContext) => {
-        const sections = cloneDeep(menuContext.menu?.sections);
-        const sectionsToRender: React.ReactNode[] = [];
+    const isSectionDisabled = (section: SectionType) => {
+        return section.displayOrder < 0;
+    }
 
+    const renderSectionsAndItems = (sections: SectionType[] | undefined) => {
         if (!sections || sections.length === 0) {
-            return sectionsToRender;
+            return [];
         }
+
+        const sectionsToRender: React.ReactNode[] = [];
 
         sortObjectsBasedOnDisplayOrder(sections);
 
         sections.forEach(section => {
             sectionsToRender.push(
-                <div key={section.identifier}>
-                    <Title id={section.identifier} level={2}
-                           className="font-black justify-center pt-2">{section.label}</Title>
+                <div className={isSectionDisabled(section) ? "opacity-70" : "opacity-100"} key={section.identifier}>
+                    <Title id={section.identifier} level={2} className="font-black justify-center pt-2">{section.label}</Title>
                     <Title level={5}>{section.description}</Title>
-                    {renderItems(section.items)}
+                    {renderItems(section.items, isSectionDisabled(section))}
                 </div>
             )
         })
@@ -44,17 +46,20 @@ const Section = () => {
         return sectionsToRender;
     }
 
-    const renderItems = (items: ItemType[]) => {
+    const renderItems = (items: ItemType[], isSectionDisabled: boolean) => {
         const cards: React.ReactNode[] = [];
 
         sortObjectsBasedOnDisplayOrder(items);
 
         items.forEach(item => {
+            // TODO: Image url shouldn't be hard coded. Fix this after backend implementations.
             const itemProps: ItemProps = {
                 label: item.label,
                 description: item.description,
                 imageUrl: "https://mrskueh.com/assets/images/atlas-core-active-storage/62map8rbqu6mjf1y6c1kav8d5ndh",
-                price: item.price
+                price: item.price,
+                displayOrder: item.displayOrder,
+                isSectionDisabled: isSectionDisabled
             }
             cards.push(
                 <div key={item.identifier}>
@@ -71,9 +76,9 @@ const Section = () => {
     };
 
     return (
-        <>
-            {renderSection(menuContext)}
-        </>
+        <div className="flex flex-col gap-y-3">
+            {renderSectionsAndItems(sections)}
+        </div>
     )
 }
-export default Section
+export default SectionItem
