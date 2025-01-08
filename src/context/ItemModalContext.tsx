@@ -11,19 +11,15 @@ export interface ItemModalProps {
 export interface ItemModalContext {
     isVisible: boolean;
     item: ItemModalProps | null;
-
     openModal(item: ItemModalProps | null): void;
-
     closeModal(): void;
 }
 
 const ItemModalContext = createContext<ItemModalContext>({
     isVisible: false,
     item: null,
-    openModal: () => {
-    },
-    closeModal: () => {
-    }
+    openModal: () => {},
+    closeModal: () => {}
 });
 
 export interface ItemModalContextProviderProps {
@@ -31,7 +27,6 @@ export interface ItemModalContextProviderProps {
 }
 
 export const ItemModalContextProvider : React.FC<ItemModalContextProviderProps> = ({children}) => {
-
     const [isVisible, setIsVisible] = useState(false);
     const [item, setItem] = useState<ItemModalProps | null>(null);
 

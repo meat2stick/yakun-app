@@ -8,10 +8,8 @@ export interface MenuContext {
 
 const MenuContext = createContext<MenuContext | undefined>({
     menu: null,
-    setMenu: () => {
-    }
+    setMenu: () => {}
 });
-
 
 export interface MenuContextProviderProps {
     children: React.ReactNode;
@@ -34,5 +32,3 @@ export const useMenuContext = () => {
     }
     return context;
 }
-
-export default MenuContext;
