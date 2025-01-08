@@ -4,9 +4,10 @@ import {Button, Input} from "antd";
 interface ItemCounterProps {
     value: number;
     onChange: (value: number) => void;
+    disabled?: boolean;
 }
 
-export const ItemCounter:React.FC<ItemCounterProps> = ({value, onChange}) => {
+export const ItemCounter:React.FC<ItemCounterProps> = ({value, onChange, disabled}) => {
 
     const onClickMinus = () => {
         if (value > 0) {
@@ -22,11 +23,11 @@ export const ItemCounter:React.FC<ItemCounterProps> = ({value, onChange}) => {
 
     return (
         <div className='flex flex-row w-30 bg-white '>
-            <Button onClick={onClickMinus}>-</Button>
+            <Button onClick={onClickMinus} disabled={disabled}>-</Button>
             <div className='w-8'>
-                <Input value={value}/>
+                <Input value={value} disabled={disabled}/>
             </div>
-            <Button onClick={onClickPlus}>+</Button>
+            <Button onClick={onClickPlus} disabled={disabled}>+</Button>
         </div>
     )
 }
