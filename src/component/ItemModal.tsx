@@ -26,65 +26,62 @@ const ItemModal: React.FC = () => {
 
     const renderItemDetails = () => {
         return (
-            <>
-                <div className={`flex flex-col sm:flex-row sm:h-auto h-screen ${opacitySetting()}`}>
-                    <img
-                        alt="example"
-                        src={
-                            item?.imageUrl
-                        }
-                        className="w-96 h-96"
+            <div className={`flex flex-col sm:flex-row sm:h-auto h-screen ${opacitySetting()}`}>
+                {/*Item Image*/}
+                <img
+                    alt="example"
+                    src={
+                        item?.imageUrl
+                    }
+                    className="w-96 h-96"
 
-                    />
-                    {/*Details*/}
-                    <div className='flex flex-col justify-between w-full p-5'>
-                        <div>
-                            {/*Title*/}
-                            <Title level={2}>
-                                <div className=''>
-                                    {item?.label}
-                                </div>
-                            </Title>
-                            {/*Description*/}
-                            <Title level={5}>
-                                <div
-                                    className=''>
-                                    {item?.description}
-                                </div>
-                            </Title>
+                />
+                {/*Item Details*/}
+                <div className='flex flex-col justify-between w-full p-5'>
+                    <div>
+                        {/*Item Title*/}
+                        <Title level={2}>
+                            <div className=''>
+                                {item?.label}
+                            </div>
+                        </Title>
+                        {/*Description*/}
+                        <Title level={5}>
+                            <div
+                                className=''>
+                                {item?.description}
+                            </div>
+                        </Title>
+                    </div>
+                    <div className='flex flex-col'>
+                        {/*Price and Item Counter*/}
+                        <div className='flex flex-row justify-between w-full'>
+                            <div className='text-base'>
+                                {'$ ' + (item?.price)?.toFixed(2)}
+                            </div>
+                            <ItemCounter value={itemCount} onChange={setItemCount} disabled={item?.isDisabled}/>
                         </div>
-                        <div className='flex flex-col'>
-                            <div className='flex flex-row justify-between w-full'>
-                                {/*Price*/}
-                                <div className='text-base'>
-                                    {'$ ' + (item?.price)?.toFixed(2)}
-                                </div>
-                                <ItemCounter value={itemCount} onChange={setItemCount} disabled={item?.isDisabled} />
-                            </div>
-                            {/*Add*/}
-                            <div className='flex flex-row pt-2 gap-x-2 '>
-                                {
-                                    <Button block type="primary" disabled={item?.isDisabled} danger>Add</Button>
-                                }
-                            </div>
+                        {/*Add Item*/}
+                        <div className='flex flex-row pt-2 gap-x-2 '>
+                            {
+                                <Button block type="primary" disabled={item?.isDisabled} danger>Add</Button>
+                            }
                         </div>
                     </div>
                 </div>
-            </>
+            </div>
         )
     }
 
     return (
-        <>
-            <Modal
-                onCancel={handleCancel}
-                footer={null}
-                width={768}
-                open={isVisible}
-                style={{padding: 20}}>
-                {item && renderItemDetails()}
-            </Modal>
-        </>
+        <Modal
+            onCancel={handleCancel}
+            footer={null}
+            width={768}
+            open={isVisible}
+            style={{padding: 20}}>
+            {item && renderItemDetails()}
+        </Modal>
     )
 }
 
