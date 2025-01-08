@@ -22,7 +22,7 @@ const ItemModal: React.FC = () => {
 
     const opacitySetting = (): string => {
         if (itemModalContext.item?.isDisabled) {
-            return "opacity-70";
+            return "opacity-50";
         }
         return "opacity-100"
     }

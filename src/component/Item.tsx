@@ -49,7 +49,7 @@ const Item: React.FC<ItemProps> = (props) => {
 
     const opacitySetting = (): number => {
         if (itemIsDisabledButSectionIsNot()) {
-            return 0.7;
+            return 0.5;
         }
         return 1
     }
@@ -58,7 +58,7 @@ const Item: React.FC<ItemProps> = (props) => {
         <>
             <Card
                 hoverable
-                style={{width: 300, height: "100%", opacity: opacitySetting()}}
+                style={{width: 280, height: "100%", opacity: opacitySetting()}}
                 cover={<img alt="example" src={props.imageUrl}/>}
                 onClick={handleItemClick}
                 actions={[renderActions()]}
