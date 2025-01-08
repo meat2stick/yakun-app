@@ -7,11 +7,13 @@ query GetMenuById($id: ID!) {
       identifier
       label
       description
+      displayOrder
       items {
         identifier
         label
         description
         price
+        displayOrder
       }
     }
   }
