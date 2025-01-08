@@ -56,7 +56,7 @@ const SectionItem = () => {
             const itemProps: ItemProps = {
                 label: item.label,
                 description: item.description,
-                imageUrl: "https://mrskueh.com/assets/images/atlas-core-active-storage/62map8rbqu6mjf1y6c1kav8d5ndh",
+                imageUrl: "https://yakun.jp/wp-content/uploads/2020/05/menu_2_1_pc.jpg",
                 price: item.price,
                 displayOrder: item.displayOrder,
                 isSectionDisabled: isSectionDisabled
