@@ -1,31 +1,36 @@
 import {Modal, Typography, Button} from "antd";
 import React, {useEffect, useState} from "react";
-import {useItemModalContext} from "../context/ItemModalContext.tsx";
+import {ItemModalProps, useItemModalContext} from "../context/ItemModalContext.tsx";
 import ItemCounter from "./ItemCounter.tsx";
-import {ItemProps} from "./Item.tsx";
 
 const {Title} = Typography;
 
 const ItemModal: React.FC = () => {
     const itemModalContext = useItemModalContext();
-    const [isModalVisible, setIsModalVisible] = useState(false);
-    const [item, setItem] = useState<ItemProps | null>(null);
+    const [item, setItem] = useState<ItemModalProps | null>(null);
     const [itemCount, setItemCount] = useState(0);
 
     const handleCancel = () => {
         itemModalContext.closeModal();
         setItemCount(0);
+        setItem(null);
     }
 
     useEffect(() => {
-        setIsModalVisible(itemModalContext.isVisible);
         setItem(itemModalContext.item);
-    }, [itemModalContext.isVisible, itemModalContext.item]);
+    }, [itemModalContext.item]);
+
+    const opacitySetting = (): string => {
+        if (itemModalContext.item?.isDisabled) {
+            return "opacity-70";
+        }
+        return "opacity-100"
+    }
 
     const renderItemDetails = () => {
         return (
             <>
-                <div className='flex flex-col sm:flex-row sm:h-auto h-screen'>
+                <div className={`flex flex-col sm:flex-row sm:h-auto h-screen ${opacitySetting()}`}>
                     <img
                         alt="example"
                         src={
@@ -57,12 +62,12 @@ const ItemModal: React.FC = () => {
                                 <div className='text-base'>
                                     {'$ ' + (item?.price)?.toFixed(2)}
                                 </div>
-                                <ItemCounter value={itemCount} onChange={setItemCount}/>
+                                <ItemCounter value={itemCount} onChange={setItemCount} disabled={item?.isDisabled} />
                             </div>
                             {/*Add*/}
                             <div className='flex flex-row pt-2 gap-x-2 '>
                                 {
-                                    <Button block type="primary" danger>Add</Button>
+                                    <Button block type="primary" disabled={item?.isDisabled} danger>Add</Button>
                                 }
                             </div>
                         </div>
@@ -78,7 +83,7 @@ const ItemModal: React.FC = () => {
                 onCancel={handleCancel}
                 footer={null}
                 width={768}
-                open={isModalVisible}
+                open={itemModalContext.isVisible}
                 style={{padding: 20}}>
                 {item && renderItemDetails()}
             </Modal>
