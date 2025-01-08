@@ -9,3 +9,29 @@
 html {
     scroll-behavior: smooth;
 }
+
+.ant-card-body {
+    height: 100px !important;
+}
+
+.ant-card-meta-title {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.ant-card-meta-description {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
+    background-color: transparent;
+    color: #ff4d4f;
+}
+
+.ant-menu-title-content {
+    font-weight: 600;
+    font-size: 16px;
+}
