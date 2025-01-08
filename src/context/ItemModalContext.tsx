@@ -1,12 +1,18 @@
 import React, {createContext, useContext, useState} from "react";
-import {ItemType} from '../types/GetMenuTypes.tsx'
-import {ItemProps} from "../component/Item.tsx";
+
+export interface ItemModalProps {
+    label: string;
+    description: string;
+    price: number;
+    isDisabled?: boolean;
+    imageUrl?: string;
+}
 
 export interface ItemModalContext {
     isVisible: boolean;
-    item: ItemProps | null;
+    item: ItemModalProps | null;
 
-    openModal(item: ItemProps | null): void;
+    openModal(item: ItemModalProps | null): void;
 
     closeModal(): void;
 }
@@ -27,9 +33,9 @@ export interface ItemModalContextProviderProps {
 export const ItemModalContextProvider : React.FC<ItemModalContextProviderProps> = ({children}) => {
 
     const [isVisible, setIsVisible] = useState(false);
-    const [item, setItem] = useState<ItemType | null>(null);
+    const [item, setItem] = useState<ItemModalProps | null>(null);
 
-    const openModal = (item: ItemType) => {
+    const openModal = (item: ItemModalProps) => {
         setItem(item);
         setIsVisible(true);
     };
