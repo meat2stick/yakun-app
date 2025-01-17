@@ -1,50 +1,37 @@
-# React + TypeScript + Vite
+# Menu Project
+A menu website to show items available on a menu.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Live Demo
+Check out the deployed project [here](http://menu-app-yakun.s3.ap-southeast-1.amazonaws.com/index.html).
+*Note it is currently not working as the backend service is down atm.
 
-Currently, two official plugins are available:
+**Note**: All menu items currently display the same placeholder image. This is a temporary implementation while awaiting updated image assets.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## **Overview**
+This repository contains a React front end application developed as part of a technical interview.
+The application will query required data through a live GraphQL endpoint which was developed previously in [this repository.](https://github.com/meat2stick/grain_menu_project).
 
-## Expanding the ESLint configuration
+The primary goal is to demonstrate the ability to:
+- Set up a React project with Vite from scratch.
+- Use Apollo to do a GraphQL query.
+- Render the items on a menu.
+- Deploy the application live so that the website can be viewed.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## **Getting Started**
+### Prerequisites
+- Install node > `18`.
 
-- Configure the top-level `parserOptions` property like this:
+### How to setup the project locally.
+- Clone the repository.
+- Run `npm install`.
+- Run `npm run dev`.
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+## Technologies Used
+- Ant Design (antd) for UI components.
+- Apollo for GraphQL.
+- React Functional Components.
+- Tailwind for CSS.
+- Typescript for type safety.
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
-
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+## Deployment
+The application is hosted on AWS S3 with static website hosting enabled.
